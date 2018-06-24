@@ -1,0 +1,14 @@
+{
+    "elec01.commercium.net": {
+        "pruning": "-",
+        "version": "1.2.1",
+        "t":"50001",
+        "s":"50002"
+    },
+    "elec02.commercium.net": {
+        "pruning": "-",
+        "version": "1.2.1",
+        "t":"50001",
+        "s":"50002"
+    }
+}
