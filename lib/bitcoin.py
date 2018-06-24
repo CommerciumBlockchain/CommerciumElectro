@@ -73,7 +73,7 @@ class NetworkConstants:
         cls.ADDRTYPE_P2SH = 50
         cls.SEGWIT_HRP = "bc"
         cls.HEADERS_URL = "https://www.commercium.net/files/blockchain_headers"
-        cls.GENESIS = ""
+        cls.GENESIS = "00045ada91749106ec529f0544ad15e9f0c2855fea37bf2952971de06e6251d2"
         cls.DEFAULT_PORTS = {'t': '50001', 's': '50002'}
         cls.DEFAULT_SERVERS = read_json_dict('servers.json')
 
