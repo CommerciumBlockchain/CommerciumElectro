@@ -1,18 +1,12 @@
 {
-    "CoinFloor": [
-        "GBP"
-    ],
-    "CEXIO": [
-        "GBP",
-        "EUR",
-        "USD",
-        "BTC"
-    ],
-    "BtcMarkets": [
-        "AUD"
-    ],
-    "Kraken": [
-        "EUR",
-        "USD"
-    ]
+  "CryptoBridge": [
+    "USD",
+    "EUR",
+    "GBP"
+  ],
+  "Crex24": [
+    "USD",
+    "EUR",
+    "GBP"
+  ]
 }
