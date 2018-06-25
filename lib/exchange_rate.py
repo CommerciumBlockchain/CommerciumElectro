@@ -339,6 +339,40 @@ class Winkdex(ExchangeBase):
                      for h in history])
 
 
+# fetch cmm/usd exchange rate
+class CryptoBridge(ExchangeBase):
+
+    def get_rates(self, ccy):
+        cmm_btc = 0
+        pair_with_btc_json = self.get_json('api.crypto-bridge.org', '/api/v1/ticker')
+        for ticker in pair_with_btc_json:
+            if ticker['id'] == 'CMM_BTC':
+                cmm_btc = Decimal(ticker['last'])
+                break
+
+        btc_to_fiat_json = self.get_json('coinbase.com', '/api/v1/currencies/exchange_rates')
+
+        result = dict([(r[7:].upper(), Decimal(btc_to_fiat_json[r]) * cmm_btc)
+                       for r in btc_to_fiat_json if r.startswith('btc_to_')])
+
+        return result
+
+
+class Crex24(ExchangeBase):
+
+    def get_rates(self, ccy):
+        pair_with_btc_json = self.get_json('api.crex24.com',
+                                           '/CryptoExchangeService/BotPublic/ReturnTicker?request=[NamePairs=BTC_CMM]')
+        cmm_btc = Decimal(pair_with_btc_json['Tickers']['Last'])
+
+        btc_to_fiat_json = self.get_json('coinbase.com', '/api/v1/currencies/exchange_rates')
+
+        result = dict([(r[7:].upper(), Decimal(btc_to_fiat_json[r]) * cmm_btc)
+                       for r in btc_to_fiat_json if r.startswith('btc_to_')])
+
+        return result
+
+      
 def dictinvert(d):
     inv = {}
     for k, vlist in d.items():
