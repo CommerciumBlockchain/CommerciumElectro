@@ -11,7 +11,7 @@ else:
     raise BaseException('no name')
 
 
-home = 'C:\\electrum\\'
+home = 'C:\\commerciumelectro\\'
 
 # see https://github.com/pyinstaller/pyinstaller/issues/2005
 hiddenimports = []
@@ -20,11 +20,11 @@ hiddenimports += collect_submodules('btchip')
 hiddenimports += collect_submodules('keepkeylib')
 
 datas = [
-    (home+'lib/currencies.json', 'electrum'),
-    (home+'lib/servers.json', 'electrum'),
-    (home+'lib/wordlist/english.txt', 'electrum/wordlist'),
-    (home+'lib/locale', 'electrum/locale'),
-    (home+'plugins', 'electrum_plugins'),
+    (home+'lib/currencies.json', 'commerciumelectro'),
+    (home+'lib/servers.json', 'commerciumelectro'),
+    (home+'lib/wordlist/english.txt', 'commerciumelectro/wordlist'),
+    (home+'lib/locale', 'commerciumelectro/locale'),
+    (home+'plugins', 'commerciumelectro_plugins'),
     #(home+'packages/requests/cacert.pem', 'requests/cacert.pem')
 ]
 datas += collect_data_files('trezorlib')
@@ -32,7 +32,7 @@ datas += collect_data_files('btchip')
 datas += collect_data_files('keepkeylib')
 
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
-a = Analysis([home+'electrum',
+a = Analysis([home+'commerciumelectro',
               home+'gui/qt/main_window.py',
               home+'gui/text.py',
               home+'lib/util.py',
@@ -76,11 +76,11 @@ exe_standalone = EXE(
           a.scripts,
           a.binaries,
           a.datas,
-          name=os.path.join('build\\pyi.win32\\electrum', cmdline_name),
+          name=os.path.join('build\\pyi.win32\\commerciumelectro', cmdline_name),
           debug=False,
           strip=None,
           upx=False,
-          icon=home+'icons/electrum.ico',
+          icon=home+'icons/commerciumelectro.ico',
           console=False)
           # The console True makes an annoying black box pop up, but it does make Electrum output command line commands, with this turned off no output will be given but commands can still be used
 
@@ -92,11 +92,11 @@ exe_dependent = EXE(
           pyz,
           a.scripts,
           exclude_binaries=True,
-          name=os.path.join('build\\pyi.win32\\electrum', cmdline_name),
+          name=os.path.join('build\\pyi.win32\\commerciumelectro', cmdline_name),
           debug=False,
           strip=None,
           upx=False,
-          icon=home+'icons/electrum.ico',
+          icon=home+'icons/commerciumelectro.ico',
           console=False)
 
 coll = COLLECT(
@@ -107,6 +107,6 @@ coll = COLLECT(
                strip=None,
                upx=True,
                debug=False,
-               icon=home+'icons/electrum.ico',
+               icon=home+'icons/commerciumelectro.ico',
                console=False,
-               name=os.path.join('dist', 'electrum'))
+               name=os.path.join('dist', 'commerciumelectro'))
