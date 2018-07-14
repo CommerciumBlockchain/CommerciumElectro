@@ -358,9 +358,11 @@ def filename_field(parent, config, defaultname, select_msg):
 
     return vbox, filename_e, b1
 
+
 class ElectrumItemDelegate(QStyledItemDelegate):
     def createEditor(self, parent, option, index):
         return self.parent().createEditor(parent, option, index)
+
 
 class MyTreeWidget(QTreeWidget):
 
@@ -613,6 +615,7 @@ class ColorScheme:
     dark_scheme = False
 
     GREEN = ColorSchemeItem("#117c11", "#8af296")
+    YELLOW = ColorSchemeItem("#897b2a", "#ffff00")
     RED = ColorSchemeItem("#7c1111", "#f18c8c")
     BLUE = ColorSchemeItem("#123b7c", "#8cb3f2")
     DEFAULT = ColorSchemeItem("black", "white")
@@ -626,6 +629,23 @@ class ColorScheme:
     def update_from_widget(widget):
         if ColorScheme.has_dark_background(widget):
             ColorScheme.dark_scheme = True
+
+
+class SortableTreeWidgetItem(QTreeWidgetItem):
+    DataRole = Qt.UserRole + 1
+
+    def __lt__(self, other):
+        column = self.treeWidget().sortColumn()
+        if None not in [x.data(column, self.DataRole) for x in [self, other]]:
+            # We have set custom data to sort by
+            return self.data(column, self.DataRole) < other.data(column, self.DataRole)
+        try:
+            # Is the value something numeric?
+            return float(self.text(column)) < float(other.text(column))
+        except ValueError:
+            # If not, we will just do string comparison
+            return self.text(column) < other.text(column)
+
 
 if __name__ == "__main__":
     app = QApplication([])

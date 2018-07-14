@@ -2693,11 +2693,13 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
             update_history_cb()
             update_exchanges()
             self.update_fiat()
+            self.address_list.refresh_headers()
 
         def on_exchange(idx):
             exchange = str(ex_combo.currentText())
             if self.fx and self.fx.is_enabled() and exchange and exchange != self.fx.exchange.name():
                 self.fx.set_exchange(exchange)
+                self.address_list.refresh_headers()
 
         def on_history(checked):
             if not self.fx: return

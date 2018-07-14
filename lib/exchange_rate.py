@@ -209,7 +209,7 @@ class CoinDesk(ExchangeBase):
         return result
 
     def history_starts(self):
-        return { 'USD': '2012-11-30' }
+        return {'USD': '2012-11-30'}
 
     def history_ccys(self):
         return self.history_starts().keys()
@@ -357,13 +357,23 @@ class CryptoBridge(ExchangeBase):
 
         return result
 
+    def history_ccys(self):
+        return ['USD']
+
+    def historical_rates(self, ccy):
+        json = self.get_json('coincodex.com', 'api/coincodex/get_coin_history/CMM/2018-06-16/2018-07-07/600')
+        history = json['CMM'][0]
+
+        return dict([(datetime.utcfromtimestamp(h[0]).strftime('%Y-%m-%d'), h[1])
+                     for h in history])
+
 
 class Crex24(ExchangeBase):
 
     def get_rates(self, ccy):
         pair_with_btc_json = self.get_json('api.crex24.com',
                                            '/CryptoExchangeService/BotPublic/ReturnTicker?request=[NamePairs=BTC_CMM]')
-        cmm_btc = Decimal(pair_with_btc_json['Tickers']['Last'])
+        cmm_btc = Decimal(pair_with_btc_json['Tickers'][0]['Last'])
 
         btc_to_fiat_json = self.get_json('coinbase.com', '/api/v1/currencies/exchange_rates')
 
@@ -372,7 +382,30 @@ class Crex24(ExchangeBase):
 
         return result
 
-      
+    def history_ccys(self):
+        return ['USD']
+
+    def historical_rates(self, ccy):
+        json = self.get_json('coincodex.com', 'api/coincodex/get_coin_history/CMM/2018-06-16/2018-07-07/600')
+        history = json['CMM'][0]
+
+        return dict([(datetime.utcfromtimestamp(h[0]).strftime('%Y-%m-%d'), h[1])
+                     for h in history])
+
+
+class Coinodex(ExchangeBase):
+
+    def history_ccys(self):
+        return ['USD']
+
+    def historical_rates(self, ccy):
+        json = self.get_json('coincodex.com', 'api/coincodex/get_coin_history/CMM/2018-06-16/2018-07-07/600')
+        history = json['CMM'][0]
+
+        return dict([(datetime.utcfromtimestamp(h[0]).strftime('%Y-%m-%d'), h[1])
+                     for h in history])
+
+
 def dictinvert(d):
     inv = {}
     for k, vlist in d.items():
@@ -440,7 +473,7 @@ class FxThread(ThreadJob):
         return d.get(ccy, [])
 
     def ccy_amount_str(self, amount, commas):
-        prec = CCY_PRECISIONS.get(self.ccy, 2)
+        prec = CCY_PRECISIONS.get(self.ccy, 3)
         fmt_str = "{:%s.%df}" % ("," if commas else "", max(0, prec))
         return fmt_str.format(round(amount, prec))
 
@@ -473,7 +506,7 @@ class FxThread(ThreadJob):
 
     def get_currency(self):
         '''Use when dynamic fetching is needed'''
-        return self.config.get("currency", "EUR")
+        return self.config.get("currency", "USD")
 
     def config_exchange(self):
         return self.config.get('use_exchange', 'Kraken')
