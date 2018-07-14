@@ -1412,7 +1412,7 @@ class Imported_Wallet(Simple_Wallet):
     def get_master_public_keys(self):
         return []
 
-    def is_beyond_limit(self, address, is_change):
+    def is_beyond_limit(self, address):
         return False
 
     def get_fingerprint(self):

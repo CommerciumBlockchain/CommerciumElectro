@@ -287,7 +287,7 @@ def read_system_config(path=SYSTEM_CONFIG_PATH):
     return result
 
 def read_user_config(path):
-    """Parse and store the user config settings in electron-cash.conf into user_config[]."""
+    """Parse and store the user config settings in commerciumelectro.conf into user_config[]."""
     if not path:
         return {}
     config_path = os.path.join(path, "config")
